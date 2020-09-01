@@ -4,8 +4,9 @@ const fs = require("fs");
 
 const Product = require("../models/product");
 const { errorHandler } = require("../helpers/dbErrorHandler");
-const { findByIdAndUpdate } = require("../models/product");
 
+
+// add a prodcut based on  users ID 
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -72,11 +73,14 @@ exports.productById = (req, res, next, id) => {
   });
 };
 
+//read specific product
 exports.read = (req, res) => {
   req.product.photo = undefined;
   return res.json(req.product);
 };
 
+
+// remove specific product by ID
 exports.remove = (req, res) => {
   Product.findByIdAndDelete(req.product._id).exec((err, msg) => {
     if (err) {
@@ -91,4 +95,32 @@ exports.remove = (req, res) => {
   });
 };
 
+//update product based on ProductId
+exports.update = (req, res) => {
+  Product.findByIdAndUpdate(req.params.productId, { $set: req.body }).exec(
+    (err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
 
+      res.json({
+        message: "Product Updated Succefully ",
+      });
+    }
+  );
+};
+
+//get all products
+exports.readAll = (req, res) => {
+  Product.find((err, products) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+
+    res.json({products});
+  });
+};
