@@ -15,12 +15,9 @@ const { userById } = require("../controllers/user");
 
 router.get("/category/getall", readAll);
 router.get("/category/:categoryId", read);
-
 router.post("/category/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete("/category/:categoryId/:userId", isAdmin, remove);
-router.put("/category/:categoryId/:userId",isAdmin , update)
-
-
+router.put("/category/:categoryId/:userId", isAdmin, update);
 
 router.param("userId", userById);
 router.param("categoryId", categoryById);

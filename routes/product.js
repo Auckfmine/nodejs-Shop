@@ -10,14 +10,21 @@ const {
   remove,
   update,
   readAll,
+  listRelated,
+  listCategories,
+  listBySearch
 } = require("../controllers/product");
 const { userById } = require("../controllers/user");
 
-router.get("/allProducts", readAll);
+
+router.post("/products/by/search", listBySearch);
+router.get("/products", readAll);
+router.get("/product/categories",listCategories)
+router.get("product/related/:productId",listRelated) //list products in the same category
 router.get("/product/:productId", read);
 router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete("/product/:productId/:userId", isAdmin, remove);
-router.put("/product/:productId/:userId",isAdmin, update);
+router.put("/product/:productId/:userId", isAdmin, update);
 
 router.param("userId", userById);
 router.param("productId", productById);

@@ -19,11 +19,11 @@ exports.create = (req, res) => {
 };
 
 //get specific category by its ID (middleware)
-exports.categoryById = (req, res, next,id) => {
+exports.categoryById = (req, res, next, id) => {
   Category.findById(id).exec((err, category) => {
     if (err || !category) {
       return res.status(400).json({
-        error: " category not found",
+        error: " category Does Not Exist",
       });
     }
 
@@ -58,8 +58,8 @@ exports.remove = (req, res) => {
         error: errorHandler(err),
       });
     }
+
     res.json({
-      deletedCategory,
       message: "Category Deleted Successfully",
     });
   });
