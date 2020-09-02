@@ -12,19 +12,23 @@ const {
   readAll,
   listRelated,
   listCategories,
-  listBySearch
+  listBySearch,
+  getPhoto,
 } = require("../controllers/product");
 const { userById } = require("../controllers/user");
 
 
-router.post("/products/by/search", listBySearch);
 router.get("/products", readAll);
-router.get("/product/categories",listCategories)
-router.get("product/related/:productId",listRelated) //list products in the same category
-router.get("/product/:productId", read);
+router.get("/product/categories", listCategories);
+router.post("/products/by/search", listBySearch);
 router.post("/product/create/:userId", requireSignin, isAuth, isAdmin, create);
 router.delete("/product/:productId/:userId", isAdmin, remove);
 router.put("/product/:productId/:userId", isAdmin, update);
+router.get("/product/photo/:productId", getPhoto);
+router.get("/product/related/:productId", listRelated); //list products in the same category
+router.get("/product/:productId", read);
+
+
 
 router.param("userId", userById);
 router.param("productId", productById);
